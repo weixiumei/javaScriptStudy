@@ -32,7 +32,7 @@ $(document).ready(function(){
     var i = 1;
     var imagesSec = document.getElementsByClassName("img-sec");
     $.getJSON("./data/imageDatas.json",function(data){
-        data.forEach(function(value){
+        data.forEach(function(value, index){
             var figure = document.createElement("figure");
             figure.setAttribute("class","img-figure");
             figure.setAttribute("id","img-figure"+(i++));
@@ -40,16 +40,22 @@ $(document).ready(function(){
             var img = document.createElement("img");
             img.setAttribute("src","./images/"+value.fileName);
             img.setAttribute("alt",value.title);
+            var figcaption = document.createElement("figcaption");
+            var h2 = document.createElement("h2");
+            h2.setAttribute("class","img-title");
+            h2.innerHTML = value.title;
+            figcaption.appendChild(h2);
 
-            figure.insertAfter(img);
-            imagesSec.appendChild(figure);
-        })
-    })
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+            imagesSec[0].appendChild(figure);
+        });
+    });
     // 布局图片初始化
     init();
 
     // 设置图片角度
-})
+});
 
 // 翻转行为
 
