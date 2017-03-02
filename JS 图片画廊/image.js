@@ -12,15 +12,15 @@ Constant = {
     // 中心图片位置点。
     centerPos:{
         left:0,
-        right:0
+        top:0
     },
-    //水平方向的取值范围。
+    //水平方向左右区域的取值范围。
     hPosRange:{
         leftSecX: [0,0],//左分区x的取值范围
         rightSecX: [0,0],//右分区的x取值范围
-        y: [0,0]
+        y: [0,0]//左右分区y的取值范围
     },
-    //垂直方向的取值范围
+    //垂直方向上侧区域的取值范围
     vPosRange:{
         x:[0,0],
         topY:[0,0]
@@ -31,7 +31,7 @@ $(document).ready(function(){
     //$.getJSON(url,[data],[callback])
     var i = 1;
     var imagesSec = document.getElementsByClassName("img-sec");
-    $.getJSON("./data/imageDatas.json",function(data){
+    $.getJSON("./data/imageDatas.json",function(data){//--allow-file-access-from-files
         data.forEach(function(value, index){
             var figure = document.createElement("figure");
             figure.setAttribute("class","img-figure");
@@ -62,10 +62,29 @@ $(document).ready(function(){
 function init(){
     //加载以后，为每张图片计算其位置的范围。
     //首先拿到舞台的大小
+    var stageDom = Document.getElementsByClassName("stage"),
+        stageWidth = stageDom.scrollWidth,
+        stageHeight = stageDom.scrollHeight,
+        halfStageWidth = Math.ceil(stageWidth/2),
+        halfStageHeight = Math.ceil(stageHeight/2);
 
     //拿到一个图片的大小
+    var imageDom = Document.getElementsByClassName("img-figure"),
+        imageWidth = imageDom.scrollWidth,
+        imageHeight = imageDom.scrollHeight,
+        halfImageWidth = Math.ceil(imageWidth/2),
+        halfImageHeight = Math.ceil(imageHeight/2);
+
     //计算中心图片的位置点
+    Constant.centerPos = {
+        left:halfStageWidth - halfImageWidth,
+        top:halfStageHeight - halfImageHeight
+    }
     //左侧区域排布位置x的取值范围
+    Constant.hPosRange = {
+        leftSecX:[0, halfStageWidth - halfImageWidth],
+        rightSecX:[halfStageWidth + halfImageWidth, stageWidth]
+    }
     //右侧区域排布位置x的取值范围
     //左右侧区域排布位置y的取值范围
     //上测区域排布位置的取值范围
