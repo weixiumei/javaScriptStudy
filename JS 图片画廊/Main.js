@@ -28,7 +28,6 @@ imageDatas = genImageURL(imageDatas);
 function getRangeRandom(low, high){
   //[low, )
   return Math.ceil(low + Math.random()*(high - low));
-
 }
 
 /*
@@ -107,7 +106,6 @@ var ControllerUnit = React.createClass({
       var ontrollerUnitClassName = "controller-unit";
       ontrollerUnitClassName += this.props.arrange.isCenter ? " is-center":"";
       ontrollerUnitClassName += this.props.arrange.isInverse ? " is-inverse-unit":"";
-      
       return (
         <span className={ontrollerUnitClassName} onClick={this.handleClick}></span>
         );
@@ -123,7 +121,7 @@ class AppComponent extends React.Component {
     // 中心图片位置点。
       centerPos:{
         left:0,
-        right:0
+        top:0
       },
       //水平方向的取值范围。
       hPosRange:{
@@ -137,7 +135,8 @@ class AppComponent extends React.Component {
         topY:[0,0]
       }
     }
-    this.state = {imgsArrangeArr: [
+    this.state = {imgsArrangeArr: 
+      [
         {
           //css object style
           pos:{
@@ -184,16 +183,9 @@ class AppComponent extends React.Component {
         vPosRangeTopY = vPosRange.topY,
         vPosRangeX = vPosRange.x,
 
-        //用来存储上侧区域的图片的状态信息。
-        imgsArrangeTopArr = [],
-        //取一个或不取[0,2)
-        topImgNum = Math.ceil(Math.random() * 1),
-        //用来标记我们用来布局在上侧区域的这张图片是从数组对象的哪个位置拿出来的。
-        topImgSpliceIndex = 0,
-
-        //居中图片的状态信息(从centerIndex这个位置剔除掉1个，拿到的就是centerIndex这个位置所表示的图片信息，就是中心图片的状态)
+        //居中图片的状态信息(从centerIndex这个位置剔除掉1个，拿到的就是centerIndex这个位置所表示的图片信息，
+        //就是中心图片的状态)
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1)
-
         //首先居中 centerIndex 的图片, 居中的 centerIndex 的图片不需要旋转。
         imgsArrangeCenterArr[0] = {
           pos:centerPos,
@@ -201,10 +193,15 @@ class AppComponent extends React.Component {
           isCenter:true
         }
 
+        //用来存储上侧区域的图片的状态信息。
+        imgsArrangeTopArr = [],
+        //取一个或不取[0,1)
+        topImgNum = Math.ceil(Math.random() * 1),
+        //用来标记我们用来布局在上侧区域的这张图片是从数组对象的哪个位置拿出来的。
+        topImgSpliceIndex = 0,
         //取出要布局上侧的图片的状态信息
         topImgSpliceIndex = Math.ceil(Math.random() * imgsArrangeArr.length - topImgNum);
         imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);
-
         //布局位于上侧的图片
         imgsArrangeTopArr.forEach(function(value, index){
           imgsArrangeTopArr[index] = {
@@ -221,14 +218,12 @@ class AppComponent extends React.Component {
         for(var i = 0, j = imgsArrangeArr.length, k = j / 2; i < j; i++){
           //左区域或右区域x的取值范围
           var hPosRangeLORX = null;
-
           //前半部分布局左边，后半部分布局右边
           if(i < k){
             hPosRangeLORX = hPosRangeLeftSecX;
           }else{
             hPosRangeLORX = hPosRangeRightSecX;
           }
-
           imgsArrangeArr[i] = {
             pos:{
               top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
@@ -243,7 +238,6 @@ class AppComponent extends React.Component {
         if(imgsArrangeTopArr && imgsArrangeTopArr[0]){
           imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
         }
-
         //中心区域图片塞回去
         imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
 
