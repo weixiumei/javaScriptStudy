@@ -3,10 +3,6 @@ html, body{
     height: 100%;
     background-color: #222;
 }
-.content{
-    width: 100%;
-    height: 100%;
-}
 /*stage -- start*/
 .stage{
     position: relative;
@@ -20,24 +16,38 @@ html, body{
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden;/*隐藏超出的图片*/
     background-color: #dddddd;
 }
 .img-figure{
-    position: absolute;
+    position: absolute;/*绝对定位*/
     width: 240px;
     height: 300px;
     padding: 20px;
     margin: 0px;
     background-color: white;
     cursor: pointer;/*手形*/
-}
 
-.figcaption{
-    /*text-align: center;*/
+    transform-origin: 0 50% 0;
+    transform-style: preserve-3d;
+    transition: transform 0.8s, left 0.8s, top 0.8s;
 }
 .img-title{
     text-align: center;
     color: #a7a0a2;
+}
+.img-back{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    wedth: 240px;
+    height: 300px;
+    padding: 20px;
+    transform: rotateY(180deg) translateZ(1px);
+    background-color: white;
+    overflow: auto;
+}
+.is-inverse{
+    transform: translate(280px) rotateY(180deg);
 }
 /*image -- end*/

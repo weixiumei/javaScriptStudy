@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图片翻转</title>
+    <script type="text/javascript" src="./scripts/jquery-3.1.1.min.js"></script>
+
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            background-color: #dddddd;
+        }
+        .img-sec{
+            position: relative;
+            width: 280px;
+            height: 360px;
+            overflow: hidden;
+            background-color: #ddd;
+        }
+        /*figure{*/
+            /*margin: 0px;*/
+            /*padding: 20px;*/
+        /*}*/
+        h2{
+            text-align: center;
+        }
+        .is-inverse{
+            /*transform:rotateY(180deg);*/
+            transform: translate(320px) rotateY(180deg);
+        }
+        .img-figure{
+            position: absolute;
+            width: 280px;
+            height: 360px;
+            margin: 0;
+            padding: 20px;
+            /*box-sizing:border-box;*/
+            /*background-color: #fff;*/
+            cursor: pointer;/*变成手形*/
+            transform-origin: 0 50% 0;
+            transform-style:preserve-3d;
+            /*backface-visibility:hidden;*/
+            /*翻转动画效果*/
+            transition: transform 0.8s;
+        }
+        .img-back{
+            position: absolute;
+            left: 0;
+            top: 0;
+            color:#a7a0a2;
+            width: 280px;
+            height: 360px;
+            padding: 20px;
+            /*overflow: auto;*/
+            /*font-size: 22px;*/
+            /*line-height: 1.25;*/
+            text-align: center;
+            background-color: #fff;/*背景颜色变白*/
+            transform: rotateY(180deg);
+            /*文字换行*/
+            /*box-sizing: border-box;*/
+        }
+    </style>
+    <script>
+
+        var current = 0;
+        var tslate = 0;
+        function addInverse(e){
+            current = (current+180)%360;
+             tslate = tslate==0?280:0;
+            // obj.style.transform = "translate("+tslate+"px) "+"rotateY("+current+"deg)";
+            document.getElementById("transformPhoto").style.transform ="translate("+tslate+"px) "+"rotateY("+current+"deg)";
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        function handleClick(flg){
+            if(flg){
+                document.getElementsByTagName("figure").style.transform = "translate(320px) rotateY(180deg)";
+            }
+        }
+    </script>
+</head>
+<body>
+    <section class="img-sec">
+        <figure class="img-figure" id="transformPhoto" onclick="addInverse(event)">
+            <img src="./images/1.jpg"/>
+            <figcaption>
+                <h2 class="img-title">我是正面</h2>
+                <div class="img-back" onClick="addInverse(event)">
+                    <p>我是反面</p>
+                </div>
+            </figcaption>
+        </figure>
+    </section>
+</body>
+</html>

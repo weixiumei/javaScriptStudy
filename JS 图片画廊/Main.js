@@ -257,6 +257,7 @@ class AppComponent extends React.Component {
     }.bind(this);
    }
 
+
   //组件加载以后，为每张图片计算其位置的范围。
   //*新版react不是componentDidMount: function()..结束方法后没有逗号*
   componentDidMount() {
