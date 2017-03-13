@@ -48,6 +48,6 @@ html, body{
     overflow: auto;
 }
 .is-inverse{
-    transform: translate(280px) rotateY(180deg);
+    -webkit-transform: translate(280px) rotateY(180deg);
 }
 /*image -- end*/

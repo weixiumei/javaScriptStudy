@@ -149,7 +149,6 @@ function init(){
     rearrange(0);
     //设置状态
     setData();
-
 }
 /**
  * 重新布局所有图片
@@ -227,14 +226,14 @@ function setData(){
             value.style.left = Constant.imgArrangeArr[index].pos.left + "px";
             value.style.top = Constant.imgArrangeArr[index].pos.top  + "px";
         }
-        if(Constant.imgArrangeArr[index].rotate){
+        //if(Constant.imgArrangeArr[index].rotate){
             //transform:rotate(7deg);
             //value.style = "-Webkit-transform: rotate(" + Constant.imgArrangeArr[index].rotate + ")deg";
             value.style.transform = "rotate(" + Constant.imgArrangeArr[index].rotate + "deg)";
-        }else{
+        //}else{
             //中心图片
-            value.style.transform = "rotate(0deg)";
-        }
+            //value.style.transform = "rotate(0deg)";
+        //}
         //中心图片不被覆盖
         if(Constant.imgArrangeArr[index].isCenter){
             value.style.zIndex = 11;
@@ -276,36 +275,38 @@ function handleClick(obj, e){
         Constant.imgArrangeArr[index].isInverse = !Constant.imgArrangeArr[index].isInverse;
     }else{
         rearrange(index);
-        setData();
     }
+    setData();
     e.stopPropagation();
     e.preventDefault();
 }
 
-var current = 0;
-var tslate = 0;
-var frontTransform = "translate(0px) rotateY(0deg)";
-var backTransform = "translate(280px) rotateY(180deg)";
-function addInverse(obj, e, flg){
-    current = (current+180)%360;
-    tslate = tslate==0?280:0;
 
-    if(flg){
-        if(obj.parentNode.parentNode.style.transform.indexOf(frontTransform) == -1){
-            if(obj.parentNode.parentNode.style.transform.indexOf(backTransform) != -1){
-                obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform.replace(backTransform,"")
-            }
-            obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform
-                + frontTransform;
-        }
-    }else{
-        if(obj.style.transform.indexOf(backTransform) == -1){
-            if(obj.style.transform.indexOf(frontTransform) != -1){
-                obj.style.transform = obj.style.transform.replace(frontTransform,"")
-            }
-            obj.style.transform = obj.style.transform +  backTransform;
-        }
-    }
-    e.stopPropagation();
-    e.preventDefault();
-}
+
+//var current = 0;
+//var tslate = 0;
+//var frontTransform = "translate(0px) rotateY(0deg)";
+//var backTransform = "translate(280px) rotateY(180deg)";
+//function addInverse(obj, e, flg){
+//    current = (current+180)%360;
+//    tslate = tslate==0?280:0;
+//
+//    if(flg){
+//        if(obj.parentNode.parentNode.style.transform.indexOf(frontTransform) == -1){
+//            if(obj.parentNode.parentNode.style.transform.indexOf(backTransform) != -1){
+//                obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform.replace(backTransform,"")
+//            }
+//            obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform
+//                + frontTransform;
+//        }
+//    }else{
+//        if(obj.style.transform.indexOf(backTransform) == -1){
+//            if(obj.style.transform.indexOf(frontTransform) != -1){
+//                obj.style.transform = obj.style.transform.replace(frontTransform,"")
+//            }
+//            obj.style.transform = obj.style.transform +  backTransform;
+//        }
+//    }
+//    e.stopPropagation();
+//    e.preventDefault();
+//}
