@@ -50,4 +50,7 @@ html, body{
 .is-inverse{
     -webkit-transform: translate(280px) rotateY(180deg);
 }
+.center-rotate{
+    -webkit-transform: rotate(0deg);
+}
 /*image -- end*/

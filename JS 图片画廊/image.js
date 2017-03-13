@@ -226,14 +226,15 @@ function setData(){
             value.style.left = Constant.imgArrangeArr[index].pos.left + "px";
             value.style.top = Constant.imgArrangeArr[index].pos.top  + "px";
         }
-        //if(Constant.imgArrangeArr[index].rotate){
-            //transform:rotate(7deg);
-            //value.style = "-Webkit-transform: rotate(" + Constant.imgArrangeArr[index].rotate + ")deg";
+
+        if(Constant.imgArrangeArr[index].isCenter){
+            value.style.transform = "";
+            if(Constant.imgArrangeArr[index].isInverse){
+                //value.style.transform = value.style.transform + " translate(280px) rotateY(180deg)";
+            }
+        }else{
             value.style.transform = "rotate(" + Constant.imgArrangeArr[index].rotate + "deg)";
-        //}else{
-            //中心图片
-            //value.style.transform = "rotate(0deg)";
-        //}
+        }
         //中心图片不被覆盖
         if(Constant.imgArrangeArr[index].isCenter){
             value.style.zIndex = 11;
@@ -274,6 +275,7 @@ function handleClick(obj, e){
         obj.setAttribute("class", "img-figure " + (!Constant.imgArrangeArr[index].isInverse ? "is-inverse" : ""));
         Constant.imgArrangeArr[index].isInverse = !Constant.imgArrangeArr[index].isInverse;
     }else{
+        obj.setAttribute("class", "img-figure " + "center-rotate");
         rearrange(index);
     }
     setData();
