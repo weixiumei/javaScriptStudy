@@ -229,12 +229,10 @@ function setData(){
 
         if(Constant.imgArrangeArr[index].isCenter){
             value.style.transform = "";
-            if(Constant.imgArrangeArr[index].isInverse){
-                //value.style.transform = value.style.transform + " translate(280px) rotateY(180deg)";
-            }
         }else{
             value.style.transform = "rotate(" + Constant.imgArrangeArr[index].rotate + "deg)";
         }
+
         //中心图片不被覆盖
         if(Constant.imgArrangeArr[index].isCenter){
             value.style.zIndex = 11;
@@ -275,7 +273,8 @@ function handleClick(obj, e){
         obj.setAttribute("class", "img-figure " + (!Constant.imgArrangeArr[index].isInverse ? "is-inverse" : ""));
         Constant.imgArrangeArr[index].isInverse = !Constant.imgArrangeArr[index].isInverse;
     }else{
-        obj.setAttribute("class", "img-figure " + "center-rotate");
+        obj.setAttribute("class", "img-figure");
+        // obj.setAttribute("class", "img-figure " + "center-rotate");
         rearrange(index);
     }
     setData();
