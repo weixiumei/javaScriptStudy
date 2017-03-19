@@ -43,8 +43,14 @@ $(document).ready(function(){
     //$.getJSON(url,[data],[callback])
     var i = 1;
     var imagesSec = document.getElementsByClassName("img-sec");
+    var controllerNav = document.getElementsByClassName("controller-nav");
+    $.ajaxSetup({ cache: false });
+    //$.ajax({type:"GET",url:"url",dataType:"json",cache:false,callback});
     $.getJSON("./data/imageDatas.json",function(data){//--allow-file-access-from-files
-        data.forEach(function(value, index){
+    //$.ajax({type:"GET",url:"./data/imageDatas.json",dataType:"json",cache:false,function(data){
+        $.ajaxSetup({cache: true});
+        data.forEach(function (value, index) {
+            //图片展示区
             //<section class="img-sec">
             //    <figure class="img-figure" id="transformPhoto" onclick="addInverse(event)">
             //        <img src="./images/1.jpg"/>
@@ -57,29 +63,30 @@ $(document).ready(function(){
             //    </figure>
             //</section>
 
+
             //figure
             var imgFigure = document.createElement("figure");
-            imgFigure.setAttribute("class","img-figure");
-            imgFigure.setAttribute("id","img-figure"+(i++));
-            imgFigure.setAttribute("onClick","handleClick(this, event)")
+            imgFigure.setAttribute("class", "img-figure");
+            imgFigure.setAttribute("id", "img-figure" + (i++));
+            imgFigure.setAttribute("onClick", "handleClick(this, event)")
 
 
             //img
             var img = document.createElement("img");
-            img.setAttribute("src","./images/"+value.fileName);
-            img.setAttribute("alt",value.title);
+            img.setAttribute("src", "./images/" + value.fileName);
+            img.setAttribute("alt", value.title);
 
             //figcaption, h2
             var figcaption = document.createElement("figcaption");
             var imgTitleH2 = document.createElement("h2");
-            imgTitleH2.setAttribute("class","img-title");
+            imgTitleH2.setAttribute("class", "img-title");
             imgTitleH2.innerHTML = value.title;
             figcaption.appendChild(imgTitleH2);
 
             //div
             var imgBackDiv = document.createElement("div");
-            imgBackDiv.setAttribute("class","img-back");
-            imgBackDiv.setAttribute("onClick","handleClick(this, event)")
+            imgBackDiv.setAttribute("class", "img-back");
+            imgBackDiv.setAttribute("onClick", "handleClick(this, event)");
             var imgBackP = document.createElement("p");
             imgBackP.innerHTML = value.desc;
             imgBackDiv.appendChild(imgBackP);
@@ -89,16 +96,23 @@ $(document).ready(function(){
             imgFigure.appendChild(figcaption);
             imagesSec[0].appendChild(imgFigure);
 
+            //control
+            var span = document.createElement("span");
+            span.className = "control";
+            span.id = "control" + (i-1);
+            span.setAttribute("onClick", "handleClick(this, event)");
+            controllerNav[0].appendChild(span);
+
             //图片状态
             Constant.imgArrangeArr[index] = {
                 //css object style
-                pos:{
-                    left:0,
-                    top:0
+                pos: {
+                    left: 0,
+                    top: 0
                 },
-                rotate:0,    //图片旋转角度
-                isInverse:false,  //正反面 默认正面
-                isCenter:false   //图片是否居中 默认不居中
+                rotate: 0,    //图片旋转角度
+                isInverse: false,  //正反面 默认正面
+                isCenter: false   //图片是否居中 默认不居中
             }
         });
         // 布局图片初始化
@@ -220,14 +234,21 @@ function rearrange(centerIndex){
  */
 function setData(){
     var imgFigures = document.getElementsByClassName("img-figure");
+
     //[].forEach.call()是一种快速的方法访问forEach，并将空数组的this换成想要遍历的list。
     [].forEach.call(imgFigures, function(value, index){
+
+        value.className = "img-figure";
+        document.getElementById("control" + (index + 1)).className = "control";
         if(Constant.imgArrangeArr[index].pos){
             value.style.left = Constant.imgArrangeArr[index].pos.left + "px";
             value.style.top = Constant.imgArrangeArr[index].pos.top  + "px";
         }
 
         if(Constant.imgArrangeArr[index].isCenter){
+            document.getElementById("control" + (index + 1)).className =
+                document.getElementById("control" + (index + 1)).className +
+                " is-center";
             value.style.transform = "";
             if(Constant.imgArrangeArr[index].isInverse){
                 //value.style.transform = value.style.transform + " translate(280px) rotateY(180deg)";
@@ -270,45 +291,24 @@ function handleClick(obj, e){
     if(obj.getAttribute("id") == null) {
         obj = obj.parentNode.parentNode;
     }
+
+    //img
     index = obj.getAttribute("id").replace("img-figure", "") - 1;
+    if(!index && index != 0){
+        //control
+        index = obj.getAttribute("id").replace("control", "") - 1;
+    }
+
     if(Constant.imgArrangeArr[index].isCenter){
-        obj.setAttribute("class", "img-figure " + (!Constant.imgArrangeArr[index].isInverse ? "is-inverse" : ""));
+        document.getElementById("img-figure" + (index + 1)).setAttribute("class", "img-figure " + (!Constant.imgArrangeArr[index].isInverse ? "is-inverse" : ""));
+
+        document.getElementById("control" + (index + 1)).className = "control is-center " +
+            (!Constant.imgArrangeArr[index].isInverse ? "is-inverse-control" : "");
         Constant.imgArrangeArr[index].isInverse = !Constant.imgArrangeArr[index].isInverse;
     }else{
-        obj.setAttribute("class", "img-figure " + "center-rotate");
         rearrange(index);
+        setData();
     }
-    setData();
     e.stopPropagation();
     e.preventDefault();
 }
-
-
-
-//var current = 0;
-//var tslate = 0;
-//var frontTransform = "translate(0px) rotateY(0deg)";
-//var backTransform = "translate(280px) rotateY(180deg)";
-//function addInverse(obj, e, flg){
-//    current = (current+180)%360;
-//    tslate = tslate==0?280:0;
-//
-//    if(flg){
-//        if(obj.parentNode.parentNode.style.transform.indexOf(frontTransform) == -1){
-//            if(obj.parentNode.parentNode.style.transform.indexOf(backTransform) != -1){
-//                obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform.replace(backTransform,"")
-//            }
-//            obj.parentNode.parentNode.style.transform = obj.parentNode.parentNode.style.transform
-//                + frontTransform;
-//        }
-//    }else{
-//        if(obj.style.transform.indexOf(backTransform) == -1){
-//            if(obj.style.transform.indexOf(frontTransform) != -1){
-//                obj.style.transform = obj.style.transform.replace(frontTransform,"")
-//            }
-//            obj.style.transform = obj.style.transform +  backTransform;
-//        }
-//    }
-//    e.stopPropagation();
-//    e.preventDefault();
-//}
