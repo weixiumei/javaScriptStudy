@@ -250,12 +250,10 @@ function setData(){
                 document.getElementById("control" + (index + 1)).className +
                 " is-center";
             value.style.transform = "";
-            if(Constant.imgArrangeArr[index].isInverse){
-                //value.style.transform = value.style.transform + " translate(280px) rotateY(180deg)";
-            }
         }else{
             value.style.transform = "rotate(" + Constant.imgArrangeArr[index].rotate + "deg)";
         }
+
         //中心图片不被覆盖
         if(Constant.imgArrangeArr[index].isCenter){
             value.style.zIndex = 11;

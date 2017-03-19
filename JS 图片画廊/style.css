@@ -59,7 +59,7 @@ html, body{
     overflow: auto;
 }
 .is-inverse{
-    -webkit-transform: translate(280px) rotateY(180deg);
+    -webkit-transform:translate(280px) rotateY(180deg);
 }
 .center-rotate{
     -webkit-transform: rotate(0deg);
